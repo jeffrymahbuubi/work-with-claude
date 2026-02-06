@@ -2,6 +2,41 @@
 
 A starter template for working with Claude Code, complete with custom agents, skills, and environment setup scripts.
 
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Repository Structure](#repository-structure)
+- [Using Custom Agents](#using-custom-agents)
+  - [Creating an Agent](#creating-an-agent)
+  - [Invoking an Agent](#invoking-an-agent)
+- [Using Custom Skills](#using-custom-skills)
+  - [Creating a Skill](#creating-a-skill)
+  - [Invoking a Skill](#invoking-a-skill)
+- [Using Custom Commands](#using-custom-commands)
+  - [Creating a Command](#creating-a-command)
+  - [Invoking a Command](#invoking-a-command)
+- [Environment Variables](#environment-variables)
+  - [Setup](#setup)
+  - [Make Script Executable](#make-script-executable)
+- [CLAUDE.md - Project Instructions](#claudemd---project-instructions)
+- [Local Permissions](#local-permissions)
+- [MCP Server Setup](#mcp-server-setup)
+  - [Available MCP Servers](#available-mcp-servers)
+  - [Security Best Practices](#security-best-practices)
+  - [Example .env Configuration](#example-env-configuration)
+  - [Verifying MCP Server Installation](#verifying-mcp-server-installation)
+  - [Removing MCP Servers](#removing-mcp-servers)
+- [Customizing for Your Project](#customizing-for-your-project)
+- [Best Practices](#best-practices)
+  - [Agents](#agents)
+  - [Skills](#skills)
+  - [Commands](#commands)
+  - [Environment Variables](#environment-variables-1)
+- [Troubleshooting](#troubleshooting)
+- [Examples](#examples)
+- [Resources](#resources)
+- [License](#license)
+
 ## Quick Start
 
 1. **Clone or copy this repository** to your project directory
