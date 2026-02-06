@@ -64,7 +64,8 @@ A starter template for working with Claude Code, complete with custom agents, sk
 │   │   └── example-command.md    # Example command template
 │   └── settings.local.json       # Local permissions settings
 ├── scripts/                      # Utility scripts
-│   └── claude-with-env.sh        # Launch Claude with .env variables
+│   ├── claude-with-env.sh        # Launch Claude with .env variables
+│   └── start_jupyter_server.sh   # Start Jupyter server for MCP integration
 ├── .env.example                  # Example environment variables
 ├── .gitignore                    # Git ignore rules
 ├── CLAUDE.md                     # Project-specific Claude instructions
@@ -282,6 +283,67 @@ claude mcp add context7 \
 - Add `CONTEXT7_API_KEY` to your `.env` file
 - The API key is resolved at runtime when Claude Code starts
 
+#### jupyter-mcp-server
+
+Provides Jupyter notebook integration, allowing Claude to execute code, analyze data, and work with Jupyter notebooks directly.
+
+**Prerequisites:**
+1. Have Jupyter installed in your environment
+2. Start the Jupyter server before using the MCP server
+
+**Step 1: Start Jupyter Server**
+
+Use the provided script to start JupyterLab with the required configuration:
+
+```bash
+./scripts/start_jupyter_server.sh
+```
+
+**Step 2: Configure the MCP Server**
+
+Add the following to your `.mcp.json` or use the setup command:
+
+```json
+"jupyter-mcp-server": {
+  "type": "stdio",
+  "command": "uvx",
+  "args": [
+    "jupyter-mcp-server"
+  ],
+  "env": {
+    "JUPYTER_URL": "http://localhost:8888",
+    "JUPYTER_TOKEN": "my_secure_token_123",
+    "DOCUMENT_ID": "",
+    "ALLOW_IMG_OUTPUT": "true"
+  }
+}
+```
+
+**Setup Command (Alternative):**
+```bash
+claude mcp add jupyter-mcp-server \
+  --env JUPYTER_URL='http://localhost:8888' \
+  --env JUPYTER_TOKEN='${JUPYTER_TOKEN}' \
+  --env DOCUMENT_ID='' \
+  --env ALLOW_IMG_OUTPUT='true' \
+  --scope project \
+  -- uvx jupyter-mcp-server
+```
+
+**Important:**
+- Add `JUPYTER_TOKEN` to your `.env` file
+- The token must match the one used when starting Jupyter server
+- Ensure Jupyter server is running before using this MCP server
+- Set `ALLOW_IMG_OUTPUT` to `true` to enable image rendering in responses
+
+**Customizing the Jupyter Script:**
+
+Edit `scripts/start_jupyter_server.sh`:
+1. Update the project directory path
+2. Modify the token to match your `.env` configuration
+3. Adjust port if needed (default: 8888)
+4. Enable/disable virtual environment activation
+
 ### Security Best Practices
 
 - Store all API keys and sensitive credentials in `.env`
@@ -294,6 +356,7 @@ claude mcp add context7 \
 ```bash
 # MCP Server API Keys
 CONTEXT7_API_KEY=your_context7_key_here
+JUPYTER_TOKEN=my_secure_token_123
 TRANSCRIPT_API_KEY=your_transcript_key_here
 
 # Other API Keys
