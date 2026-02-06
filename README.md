@@ -58,7 +58,11 @@ A starter template for working with Claude Code, complete with custom agents, sk
 │   ├── agents/                   # Custom agents
 │   │   └── example-agent.md      # Example agent template
 │   ├── skills/                   # Custom skills
-│   │   └── example-skill/        # Example skill template
+│   │   ├── example-skill/        # Example skill template
+│   │   │   └── SKILL.md
+│   │   ├── mermaid-diagram-specialist/  # Mermaid diagram creation
+│   │   │   └── SKILL.md
+│   │   └── xlsx/                 # Excel file operations
 │   │       └── SKILL.md
 │   ├── commands/                 # Custom commands
 │   │   └── example-command.md    # Example command template
@@ -432,12 +436,23 @@ chmod +x scripts/claude-with-env.sh
 
 ## Examples
 
-This boilerplate includes example templates:
-- `agents/example-agent.md` - Agent template with explanation
-- `skills/example-skill/SKILL.md` - Skill template with workflow
-- `commands/example-command.md` - Command template
+This boilerplate includes example templates and production-ready skills:
 
-These are fully functional examples you can use as starting points.
+### Templates
+- `.claude/agents/example-agent.md` - Agent template with explanation
+- `.claude/skills/example-skill/SKILL.md` - Skill template with workflow
+- `.claude/commands/example-command.md` - Command template
+
+### Production Skills
+- `.claude/skills/mermaid-diagram-specialist/SKILL.md` - Create flowcharts, sequence diagrams, ERDs, C4 diagrams, and more
+  - Use: `/mermaid-diagram-specialist` when creating technical documentation or visualizing architecture
+  - Supports: 10+ diagram types including flowcharts, sequence diagrams, ERDs, state diagrams, and Gantt charts
+
+- `.claude/skills/xlsx/SKILL.md` - Excel file creation, editing, and analysis
+  - Use: `/xlsx` when working with spreadsheets (.xlsx, .xlsm, .csv, .tsv)
+  - Features: Formula management, financial modeling, data analysis, professional formatting
+
+These are fully functional examples you can use as starting points or use directly in your projects.
 
 ## Resources
 
