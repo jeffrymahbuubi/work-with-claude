@@ -20,6 +20,9 @@ A starter template for working with Claude Code, complete with custom agents, sk
   - [Make Script Executable](#make-script-executable)
 - [CLAUDE.md - Project Instructions](#claudemd---project-instructions)
 - [Local Permissions](#local-permissions)
+- [Security Scanning Tools](#security-scanning-tools)
+  - [MCP Server Security Scanner](#mcp-server-security-scanner)
+  - [Claude Skills Security Scanner](#claude-skills-security-scanner)
 - [MCP Server Setup](#mcp-server-setup)
   - [Available MCP Servers](#available-mcp-servers)
   - [Security Best Practices](#security-best-practices)
@@ -68,8 +71,17 @@ A starter template for working with Claude Code, complete with custom agents, sk
 │   │   └── example-command.md    # Example command template
 │   └── settings.local.json       # Local permissions settings
 ├── scripts/                      # Utility scripts
-│   ├── claude-with-env.sh        # Launch Claude with .env variables
-│   └── start_jupyter_server.sh   # Start Jupyter server for MCP integration
+│   ├── bash/                     # Bash scripts
+│   │   ├── claude-with-env.sh    # Launch Claude with .env variables
+│   │   ├── copilot-cli-with-env.sh # Launch Copilot CLI with .env variables
+│   │   └── start_jupyter_server.sh # Start Jupyter server for MCP integration
+│   └── python/                   # Python scripts
+│       ├── scan_claude_skills.py # Security scanner for Claude skills
+│       └── scan_mcp_servers.py   # Security scanner for MCP servers
+├── docs/                         # Documentation
+│   ├── readme-mcp-scanner.md     # MCP security scanner guide
+│   ├── readme-skill-scanner.md   # Skill security scanner guide
+│   └── uv-python-project-setup.md # UV Python project setup guide
 ├── .env.example                  # Example environment variables
 ├── .gitignore                    # Git ignore rules
 ├── CLAUDE.md                     # Project-specific Claude instructions
@@ -230,6 +242,105 @@ The `.claude/settings.local.json` file configures auto-approved permissions for 
 ```
 
 Add tool names to the `allow` array to skip permission prompts for those tools.
+
+## Security Scanning Tools
+
+This boilerplate includes security scanning tools from **Cisco AI Defense** to help you identify potential security vulnerabilities in your AI agent setup. These tools are essential for maintaining security when working with AI tools like Claude Code, Gemini CLI, Codex, and others.
+
+### MCP Server Security Scanner
+
+Scans your MCP (Model Context Protocol) servers for security vulnerabilities using multiple detection engines.
+
+**Tool:** `scripts/python/scan_mcp_servers.py`
+
+**Features:**
+- 🔍 **YARA Analyzer**: Pattern-based threat detection (no API key required)
+- 🤖 **LLM Analyzer**: Semantic analysis using language models (optional)
+- 🛡️ **API Analyzer**: Cisco AI Defense Inspect API integration (optional)
+
+**Quick Start:**
+```bash
+# Basic scan with YARA (no API key needed)
+python scripts/python/scan_mcp_servers.py
+
+# Scan with multiple analyzers
+export MCP_SCANNER_LLM_API_KEY="your_api_key"
+python scripts/python/scan_mcp_servers.py --analyzers yara,llm
+```
+
+**What it detects:**
+- Command injection vulnerabilities
+- Path traversal attacks
+- Prompt injection attempts
+- Tool poisoning
+- Data exfiltration patterns
+- Credential exposure
+- Insecure configurations
+
+**Documentation:** See [`docs/readme-mcp-scanner.md`](docs/readme-mcp-scanner.md) for detailed usage.
+
+### Claude Skills Security Scanner
+
+Scans your Claude Code skills for security vulnerabilities using multiple analysis engines.
+
+**Tool:** `scripts/python/scan_claude_skills.py`
+
+**Features:**
+- 📋 **Static Analyzer**: YAML + YARA pattern matching (always enabled)
+- 🔄 **Behavioral Analyzer**: AST dataflow analysis (optional)
+- 🧠 **LLM Analyzer**: Semantic understanding via Claude API (optional)
+
+**Quick Start:**
+```bash
+# Basic scan with static analyzer
+python scripts/python/scan_claude_skills.py --skills-dir .claude/skills
+
+# Deep scan with behavioral analysis
+python scripts/python/scan_claude_skills.py \
+  --skills-dir .claude/skills \
+  --use-behavioral \
+  --format markdown \
+  --output scan_report.md
+```
+
+**What it detects:**
+- Prompt injection attacks
+- Data exfiltration patterns
+- Malicious code execution
+- Command injection
+- Credential theft
+- Obfuscated code
+- Policy violations
+
+**Documentation:** See [`docs/readme-skill-scanner.md`](docs/readme-skill-scanner.md) for detailed usage.
+
+### Installation
+
+These tools require the Cisco AI Defense packages:
+
+```bash
+# Install both security scanners
+pip install cisco-ai-mcp-scanner cisco-ai-skill-scanner
+
+# Or using uv
+uv pip install cisco-ai-mcp-scanner cisco-ai-skill-scanner
+```
+
+### Why Use These Tools?
+
+When working with AI agents and MCP servers, security is critical:
+
+- ✅ **Early Detection**: Find security issues before they reach production
+- ✅ **Compliance**: Document your security posture with detailed reports
+- ✅ **Risk Reduction**: Identify and remediate vulnerabilities proactively
+- ✅ **CI/CD Integration**: Automate security checks in your pipeline
+- ✅ **Multi-AI Support**: Works with Claude Code, Gemini CLI, Codex, and more
+
+**Best Practice:** Run security scans regularly:
+- Before installing new MCP servers or skills
+- After updating existing servers/skills
+- As part of your CI/CD pipeline
+- During security audits
 
 ## MCP Server Setup
 
